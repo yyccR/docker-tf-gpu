@@ -43,11 +43,11 @@ https://tensorflow.google.cn/install/source#linux
 
 ## docker镜像构建
 ```python
-docker build -t "zzc/gpu_dev:tf2.2-cuda10.1-cudnn7.6" .
+docker build -t zzc/gpu_dev:tf2.2-cuda10.1-cudnn7.6 .
 
 sudo docker run -it --gpus all --rm zzc/gpu_dev:tf1.14-cuda10.0-cudnn7.4
 
-sudo docker run -dti --gpus all  --name "tf2.2-cuda10.1-cudnn7.6" zzc/gpu_dev:tf2.2-cuda10.1-cudnn7.6
+sudo docker run -dti --gpus all  --name tf2.2-cuda10.1-cudnn7.6 zzc/gpu_dev:tf2.2-cuda10.1-cudnn7.6
 ```
 
 ## 关于docker基础镜像的一点小tips
