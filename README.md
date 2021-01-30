@@ -1,4 +1,5 @@
-# docker gpu
+# docker tf gpu
+> 项目环境的隔离和实例发布上线目前都是基于docker, tf直接宿主机环境会有很多限制和冲突, 下面列出了不同tf版本如何打包成一个可以使用gpu的docker镜像.
 
 ## tensorflow 版本要求细节
 ```python
@@ -26,12 +27,21 @@ https://tensorflow.google.cn/install/source#linux
 | tensorflow_gpu-1.0.0  | 2.7、3.3-3.6 | GCC 4.8   | Bazel 0.4.2  | 5.1   | 8    |
 
 
-## nvidia镜像
-```python
-需要nvcc环境的用nvidia的devel镜像, 否则用runtime的
+## 宿主机相关配置
+```
+0. 查看tensorflow版本对驱动,cuda, cudnn的版本要求: https://www.tensorflow.org/install/source#tested_build_configurations
+1. 宿主机安装驱动, https://www.nvidia.com/Download/index.aspx?lang=en-us
+2. 安装docker cuda toolkit, https://github.com/NVIDIA/nvidia-docker
+   ubuntu16.04/18.04:
+   distribution=$(. /etc/os-release;echo $ID$VERSION_ID)
+   curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -
+   curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+   sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
+   sudo systemctl restart docker
 ```
 
-## docker 
+
+## docker镜像构建
 ```python
 docker build -t "zzc/gpu_dev:tf2.2-cuda10.1-cudnn7.6" .
 
@@ -40,6 +50,10 @@ sudo docker run -it --gpus all --rm zzc/gpu_dev:tf1.14-cuda10.0-cudnn7.4
 sudo docker run -dti --gpus all  --name "tf2.2-cuda10.1-cudnn7.6" zzc/gpu_dev:tf2.2-cuda10.1-cudnn7.6
 ```
 
+## 关于docker基础镜像的一点小tips
+```python
+需要nvcc环境的用nvidia的devel镜像, 否则用runtime的
+```
 
 ## test
 ```python
