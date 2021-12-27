@@ -1,5 +1,5 @@
-#FROM nvidia/cuda:10.1-cudnn7-runtime-ubuntu18.04
-FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+#FROM nvidia/cuda:10.2-cudnn7-runtime-ubuntu18.04
+FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
 # base requirements
 ENV DEBIAN_FRONTEND=noninteractive
@@ -19,12 +19,5 @@ RUN apt-get update && apt-get autoclean && apt-get install -y \
 && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install --upgrade "pip < 21.0"
-
 # model requirements
-RUN pip3 install --no-cache-dir tensorflow-gpu==2.1.0
-
-
-# copy project files
-COPY libcudnn7_7.6.4.38-1+cuda10.1_amd64.deb /data/gpu/tf2.1.0-cuda10.1-cudnn7.6/libcudnn7_7.6.4.38-1+cuda10.1_amd64.deb
-RUN  dpkg -i /data/gpu/tf2.1.0-cuda10.1-cudnn7.6/libcudnn7_7.6.4.38-1+cuda10.1_amd64.deb
-
+RUN pip3 install --no-cache-dir tensorflow-gpu==2.3.0
